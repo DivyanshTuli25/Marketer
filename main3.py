@@ -2,6 +2,7 @@
 # pip install crewai==0.22.5 streamlit==1.32.2
 import streamlit as st
 import os
+import pandas as pd
 from crewai import Crew, Process, Agent, Task
 from langchain_core.callbacks import BaseCallbackHandler
 from typing import TYPE_CHECKING, Any, Dict, Optional
@@ -36,7 +37,7 @@ if selected == "Home":
     os.environ["GROQ_API_KEY"] = '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'
     llm = ChatGroq(temperature=0.2, model_name="llama3-8b-8192")
 
-    avators = {
+    avatars = {
         "Writer": "https://cdn-icons-png.flaticon.com/512/320/320336.png",
         "Reviewer": "https://cdn-icons-png.freepik.com/512/9408/9408201.png"
     }
@@ -72,9 +73,15 @@ if selected == "Home":
     for msg in st.session_state.messages:
         st.chat_message(msg["role"]).write(msg["content"])
 
-    if prompt := st.chat_input("Enter your business overview"):
-        st.session_state.messages.append({"role": "user", "content": prompt})
-        st.chat_message("user").write(prompt)
+    with st.form("input_form"):
+        business_overview = st.text_area("Enter your business overview")
+        marketing_budget = st.text_input("Enter your marketing budget")
+        sector = st.selectbox("Select the sector your business is operating in", ["B2B", "B2C", "Other"])
+        submitted = st.form_submit_button("Submit")
+
+    if submitted:
+        st.session_state.messages.append({"role": "user", "content": f"Business Overview: {business_overview}\nMarketing Budget: {marketing_budget}\nSector: {sector}"})
+        st.chat_message("user").write(f"Business Overview: {business_overview}\nMarketing Budget: {marketing_budget}\nSector: {sector}")
 
         # Define the tasks
         gather_industry_insights = Task(
@@ -99,6 +106,7 @@ if selected == "Home":
                 "status_tracking": "Method for tracking the status of goals, initiatives, and activities"
             """
         )
+
         crew = Crew(
             agents=[industry_researcher, roadmap_creator],
             tasks=[gather_industry_insights, develop_marketing_strategy],
@@ -106,15 +114,18 @@ if selected == "Home":
         )
         final = crew.kickoff()
 
-        result = f"## Here is the Final Result \n\n {final}"
+        # Parse final result and create a dataframe for better display
+        results_data = []
+        for line in final.split('\n'):
+            if ':' in line:
+                key, value = line.split(':', 1)
+                results_data.append({"Category": key.strip(), "Details": value.strip()})
 
-        # Display result in beautiful format
+        results_df = pd.DataFrame(results_data)
+
+        # Display result in a tabular format
         st.markdown("## Analysis Result")
-        companies = final.split('\n\n')  # Split the final result by double newlines to separate companies
-        for company in companies:
-            with st.container():
-                st.markdown(f"### {company.split(':')[0]}")  # Display company name as header
-                st.markdown(f"*Details:* {company.split(':')[0]}")  # Display company details
+        st.table(results_df)
 
 elif selected == "About":
     st.markdown("### About Zyper.ai")
