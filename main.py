@@ -11,12 +11,13 @@ from crewai_tools import SerperDevTool
 from streamlit_option_menu import option_menu
 
 tool = SerperDevTool()
+
 # Page Configuration
-st.set_page_config(page_title="Startup Analyst", page_icon="💬", layout="wide")
+st.set_page_config(page_title="Zyper.ai", page_icon="💬", layout="wide")
 
 # Title and Description
-st.title("💬 Startup Analyst")
-st.markdown("### Your comprehensive tool for startup analysis and insights")
+st.title("💬 Zyper.ai")
+st.markdown("### Delivering Superior Generative AI based Digital Marketing Agency")
 
 # Sidebar for Navigation
 with st.sidebar:
@@ -71,7 +72,7 @@ if selected == "Home":
     for msg in st.session_state.messages:
         st.chat_message(msg["role"]).write(msg["content"])
 
-    if prompt := st.chat_input("Enter your startup idea or question here..."):
+    if prompt := st.chat_input("Enter your business idea or question here..."):
         st.session_state.messages.append({"role": "user", "content": prompt})
         st.chat_message("user").write(prompt)
 
@@ -80,8 +81,8 @@ if selected == "Home":
             description="Collect detailed information about the specific industry, including current trends, benchmarks, and best practices.",
             agent=industry_researcher,
             expected_output="""
-                "industry_trend": "A report on current industry trends",
-                "benchmarks: "Benchmark data for the industry",
+                "industry_trends": "A report on current industry trends",
+                "benchmarks": "Benchmark data for the industry",
                 "best_practices": "List of best practices relevant to the industry"
             """
         )
@@ -112,16 +113,16 @@ if selected == "Home":
         for company in companies:
             with st.container():
                 st.markdown(f"### {company.split(':')[0]}")  # Display company name as header
-                st.markdown(f"*Details:* {company.split(':')[0]}")  # Display company details
+                st.markdown(f"*Details:* {company.split(':')[1]}")  # Display company details
 
 elif selected == "About":
-    st.markdown("### About Startup Analyst")
-    st.write("Startup Analyst is designed to help users get comprehensive analysis and insights about startups from various reliable sources. Using advanced AI agents, it gathers and summarizes data to provide a detailed report and a concise summary.")
+    st.markdown("### About Zyper.ai")
+    st.write("Zyper.ai is an AI-first digital marketing agency that provides superior generative AI-based marketing solutions. Our mission is to deliver comprehensive and customized marketing strategies that align with your business goals.")
 
 elif selected == "Contact":
     st.markdown("### Contact Us")
-    st.write("For any inquiries, please reach out to us at: startup.analyst@example.com")
+    st.write("For any inquiries, please reach out to us at: support@zyper.ai")
 
 # Footer
 st.markdown("---")
-st.markdown("© 2024 Startup Analyst. All rights reserved.")
+st.markdown("© 2024 Zyper.ai. All rights reserved.")
