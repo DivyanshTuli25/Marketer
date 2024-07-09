@@ -1,0 +1,9 @@
+crewai
+crewai_tools
+crewai[tools]
+langchain_google_genai
+load_dotenv
+langchain_groq
+streamlit
+pymupdf
+streamlit-option-menu
