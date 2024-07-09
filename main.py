@@ -10,7 +10,7 @@ from langchain_groq import ChatGroq
 from crewai_tools import SerperDevTool
 from streamlit_option_menu import option_menu
 
-
+tool = SerperDevTool()
 # Page Configuration
 st.set_page_config(page_title="Startup Analyst", page_icon="💬", layout="wide")
 
@@ -48,7 +48,7 @@ if selected == "Home":
         verbose=True,
         llm=llm,
         allow_delegation=True,
-        tools=tool
+        tools=[tool],
     )
 
     # Define the Marketing Roadmap Agent
@@ -60,6 +60,7 @@ if selected == "Home":
         verbose=True,
         llm=llm,
         allow_delegation=False,
+        tools=[]
     )
 
     st.markdown("#### Interactive Chat")
@@ -77,18 +78,25 @@ if selected == "Home":
         # Define the tasks
         gather_industry_insights = Task(
             description="Collect detailed information about the specific industry, including current trends, benchmarks, and best practices.",
-            agent="IndustryResearcher",
-            expected_output=
-
+            agent=industry_researcher,
+            expected_output="""
+                "industry_trend": "A report on current industry trends",
+                "benchmarks: "Benchmark data for the industry",
+                "best_practices": "List of best practices relevant to the industry"
+            """
         )
 
         develop_marketing_strategy = Task(
             description="Use the gathered insights to create a comprehensive marketing strategy that includes goals, initiatives, schedules, activities, and status tracking.",
-            agent="RoadmapCreator",
-            expected_output =
-
+            agent=roadmap_creator,
+            expected_output="""
+                "marketing_goals": "A list of measurable and time-bound marketing goals",
+                "initiatives": "Detailed description of marketing initiatives",
+                "schedule": "Chronological schedule of marketing activities",
+                "activities": "List of marketing activities",
+                "status_tracking": "Method for tracking the status of goals, initiatives, and activities"
+            """
         )
-
         crew = Crew(
             agents=[industry_researcher, roadmap_creator],
             tasks=[gather_industry_insights, develop_marketing_strategy],
