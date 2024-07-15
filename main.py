@@ -17,7 +17,7 @@ st.set_page_config(page_title="Zyper.ai", page_icon="💬", layout="wide")
 
 # Title and Description
 st.title("💬 Zyper.ai")
-st.markdown("### Delivering Superior Generative AI based Digital Marketing Agency")
+st.markdown("### Delivering Superior Generative AI Marketing Services To Small Businesses Worldwide")
 
 # Sidebar for Navigation
 with st.sidebar:
@@ -78,7 +78,7 @@ if selected == "Home":
 
         # Define the tasks
         gather_industry_insights = Task(
-            description="Collect detailed information about the specific industry, including current trends, benchmarks, and best practices.",
+            description=f"Collect detailed information about the specific industry of {prompt}, including current trends, benchmarks, and best practices.",
             agent=industry_researcher,
             expected_output="""
                 "industry_trends": "A report on current industry trends",
@@ -88,7 +88,7 @@ if selected == "Home":
         )
 
         develop_marketing_strategy = Task(
-            description="Use the gathered insights to create a comprehensive marketing strategy that includes goals, initiatives, schedules, activities, and status tracking.",
+            description="Use the gathered insights to create a comprehensive marketing strategy that includes goals, initiatives, schedules, activities, and status tracking for best marketing of {prompt}.",
             agent=roadmap_creator,
             expected_output=
             """
@@ -110,11 +110,12 @@ if selected == "Home":
 
         # Display result in beautiful format
         st.markdown("## Analysis Result")
-        companies = final.split('\n\n')  # Split the final result by double newlines to separate companies
-        for company in companies:
-            with st.container():
-                st.markdown(f"### {company.split(':')[0]}")  # Display company name as header
-                st.markdown(f"*Details:* {company.split(':')[0]}")  # Display company details
+        st.write(result)
+        # companies = final.split('\n\n')  # Split the final result by double newlines to separate companies
+        # for company in companies:
+        #     with st.container():
+        #         st.markdown(f"### {company.split(':')[0]}")  # Display company name as header
+        #         st.markdown(f"*Details:* {company.split(':')[0]}")  # Display company details
 
 elif selected == "About":
     st.markdown("### About Zyper.ai")

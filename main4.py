@@ -17,7 +17,7 @@ st.set_page_config(page_title="Zyper.ai", page_icon="💬", layout="wide")
 
 # Title and Description
 st.title("💬 Zyper.ai")
-st.markdown("### Delivering Superior Generative AI Marketing Services To Small Businesses Worldwide")
+st.markdown("### Delivering Superior Generative AI based Digital Marketing Agency")
 
 # Sidebar for Navigation
 with st.sidebar:
@@ -34,7 +34,7 @@ if selected == "Home":
     tool = SerperDevTool()
 
     os.environ["GROQ_API_KEY"] = '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'
-    llm = ChatGroq(temperature=0.2, model_name="gemma2-9b-it")
+    llm = ChatGroq(temperature=0.2, model_name="llama3-8b-8192")
 
     avatars = {
         "Writer": "https://cdn-icons-png.flaticon.com/512/320/320336.png",
@@ -50,7 +50,6 @@ if selected == "Home":
         llm=llm,
         allow_delegation=True,
         tools=[tool],
-        max_iter=5
     )
 
     # Define the Marketing Roadmap Agent
@@ -63,7 +62,6 @@ if selected == "Home":
         llm=llm,
         allow_delegation=False,
         tools=[],
-        max_iter=5
     )
 
     st.markdown("#### Interactive Chat")
@@ -86,7 +84,7 @@ if selected == "Home":
 
         # Define the tasks
         gather_industry_insights = Task(
-            description=f"Collect detailed information about the specific industry of {business_overview}, {sector} sector and for a marketing budget of {marketing_budget} US Dollars per month, including current trends, benchmarks, and best practices.",
+            description=f"Collect detailed information about the specific industry as per {business_overview} and {sector}, including current trends, benchmarks, and best practices.",
             agent=industry_researcher,
             expected_output="""
                 "industry_trends": "A report on current industry trends",
@@ -133,6 +131,6 @@ elif selected == "Contact":
     st.markdown("### Contact Us")
     st.write("For any inquiries, please reach out to us at: support@zyper.ai")
 
-# Footer
+#Footer
 st.markdown("---")
 st.markdown("© 2024 Zyper.ai. All rights reserved.")
