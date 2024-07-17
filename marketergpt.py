@@ -15,7 +15,7 @@ st.set_page_config(page_title="Zyper.ai", page_icon="💬", layout="wide")
 
 # Title and Description
 st.title("💬 Zyper.ai")
-st.markdown("### Delivering Superior Generative AI Marketing Services To Small Businesses Worldwide")
+st.markdown("### 100% AI platform that fully runs your marketing to deliver superior results")
 
 # Sidebar for Navigation
 with st.sidebar:
@@ -48,6 +48,8 @@ if selected == "Home":
         llm=llm,
         allow_delegation=True,
         tools=[tool],
+        max_iter=7,
+        max_rpm = 5000,
     )
 
     # Define the Marketing Roadmap Agent
@@ -60,12 +62,14 @@ if selected == "Home":
         llm=llm,
         allow_delegation=False,
         tools=[],
+        max_iter=4,
+        max_rpm = 4000
     )
 
     st.markdown("#### Interactive Chat")
 
     if "messages" not in st.session_state:
-        st.session_state["messages"] = [{"role": "assistant", "content": "What are you planning to build?"}]
+        st.session_state["messages"] = [{"role": "assistant", "content": "Enter the following details to generate a customized marketing roadmap"}]
 
     for msg in st.session_state.messages:
         st.chat_message(msg["role"]).write(msg["content"])
@@ -143,7 +147,16 @@ if selected == "Home":
 
 elif selected == "About":
     st.markdown("### About Zyper.ai")
-    st.write("Zyper.ai is an AI-first digital marketing agency that provides superior generative AI-based marketing solutions. Our mission is to deliver comprehensive and customized marketing strategies that align with your business goals.")
+    st.write("""
+    **Vision Statement:**
+"At Zyper AI, we envision a future where AI-powered marketing revolutionizes how brands engage with their audiences, creating meaningful connections and delivering unparalleled results globally."
+
+**Mission Statement:**
+"Our mission at Zyper AI is to empower brands with cutting-edge AI SaaS technology that autonomously manages and optimizes marketing campaigns. By leveraging sophisticated algorithms and data-driven insights, we aim to maximize ROI, enhance brand visibility, and foster long-lasting customer relationships."
+
+**About Section:**
+"Zyper AI is at the forefront of transforming digital marketing through innovative AI solutions. As a 100% AI SaaS platform, we specialize in fully automating and optimizing marketing strategies for brands across diverse industries. Our proprietary technology harnesses the power of artificial intelligence to drive targeted engagement, increase conversion rates, and streamline marketing operations with unprecedented efficiency. Founded on the principles of innovation and performance, Zyper AI is committed to reshaping the future of marketing by delivering superior results and measurable impact for our clients worldwide."
+""")
 
 elif selected == "Contact":
     st.markdown("### Contact Us")
